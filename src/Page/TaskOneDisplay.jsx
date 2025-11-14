@@ -8,6 +8,8 @@ export default function TaskOneDisplay() {
   const [loading, setLoading] = useState(true);
   const pointInputFieldRef = useRef();
 
+  const number = new Array(Math.ceil(users?.length / 4))?.fill(0);
+
   useEffect(() => {
     const controller = new AbortController();
 
@@ -20,11 +22,18 @@ export default function TaskOneDisplay() {
           }
         );
         const data = await response.json();
+
         if (value) {
           const filterUsersData = data?.filter((user) =>
             value
-              ? user?.name?.toLowerCase().startsWith(value?.toLowerCase()) ||
-                user?.email?.toLowerCase().startsWith(value?.toLowerCase())
+              ? user?.name
+                  ?.replace(/\s+/g, "")
+                  ?.toLowerCase()
+                  .startsWith(value?.replace(/\s+/g, "")?.toLowerCase()) ||
+                user?.email
+                  ?.replace(/\s+/g, "")
+                  .toLowerCase()
+                  .startsWith(value?.replace(/\s+/g, "")?.toLowerCase())
               : true
           );
           setUsers(filterUsersData);
@@ -42,10 +51,6 @@ export default function TaskOneDisplay() {
 
     return () => controller.abort();
   }, [value]);
-
-  const number = new Array(Math.ceil(users?.length / 4))?.fill(0);
-
-  console.log(number);
 
   if (loading)
     return <span className="loading loading-spinner loading-xl"></span>;

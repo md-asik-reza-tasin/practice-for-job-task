@@ -3,8 +3,13 @@ import React from "react";
 export default function Highlight({ text = "", highlight = "" }) {
   if (!highlight) return text;
 
-  const toLowerCaseText = text?.toLocaleLowerCase();
-  const toLowerCaseHighlight = highlight?.toLocaleLowerCase();
+  const toLowerCaseText = text?.replace(/\s+/g, "").toLocaleLowerCase();
+  const toLowerCaseHighlight = highlight
+    ?.replace(/\s+/g, "")
+    .toLocaleLowerCase();
+
+  console.log(toLowerCaseText);
+  console.log(toLowerCaseHighlight);
 
   const index = toLowerCaseText?.indexOf(toLowerCaseHighlight);
 
